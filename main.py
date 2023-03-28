@@ -28,7 +28,7 @@ class DreamFieldGame:
 
     def main(self):
         print(*"Поле чудес")
-        print("У вас есть 8 попыток, чтобы угадать слово")
+        print("У вас есть 15 попыток, чтобы угадать слово")
         self.play_game()
 
     def play_game(self):
