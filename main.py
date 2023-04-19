@@ -1,34 +1,26 @@
 import random
-import re
+from text_cleaner import TextCleaner
 
-
-class TextCleaner:
-    """Класс удаляет из исходного списка слов лишние символы"""
-
-    def __init__(self, text):
-        self.text = text
-
-    def clean_text(self):
-        self.text = re.sub(r'[^а-яА-ЯёЁ\s]', '', self.text)
-        return self.text
 
 class DreamFieldGame:
     """Класс реализует логику игры 'Поле чудес'"""
 
     def __init__(self):
+        words_number_list = 51300  # количество слов (строк) в исходном списке (файле)
+        self.random_word_number = random.randint(0, words_number_list)  # случайный номер слова (строки файла)
         with open('russian_nouns.txt', 'r', encoding='utf-8') as text:
-            text = str(text.readlines())
-            text_cleaner = TextCleaner(text)
-            self.words_list = text_cleaner.clean_text().split()
-
-        self.wrong_letters = []
-        self.tries_num = 15
-        self.guessed_word = random.choice(self.words_list)
-        self.game_result = ['-' for _ in range(len(self.guessed_word))]
+            for word_number, word in enumerate(text):
+                if word_number == self.random_word_number:
+                    self.guessed_word = word
+                    text_cleaner = TextCleaner(word)
+                    self.guessed_word = text_cleaner.clean_text()
+        self.wrong_letters = []  # список использованных неверных букв
+        self.tries_num = 15  # количество попыток
+        self.game_result = ['-' for _ in range(len(self.guessed_word))]  # исходное маскированное слово
 
     def main(self):
         print(*"Поле чудес")
-        print("У вас есть 8 попыток, чтобы угадать слово")
+        print("У вас есть 15 попыток, чтобы угадать слово")
         self.play_game()
 
     def play_game(self):
@@ -62,6 +54,7 @@ class DreamFieldGame:
             indices = [index for index, letter in enumerate(self.guessed_word) if guess == letter]
             for index in indices:
                 self.game_result[index] = guess
+
 
 if __name__ == '__main__':
     while True:
