@@ -12,8 +12,8 @@ class DreamFieldGame:
             for word_number, word in enumerate(text):
                 if word_number == self.random_word_number:
                     self.guessed_word = word
-                    text_cleaner = TextCleaner(word)
-                    self.guessed_word = text_cleaner.clean_text()
+                    text_cleaner_obj = TextCleaner(word)
+                    self.guessed_word = text_cleaner_obj.clean_text()
         self.wrong_letters = []  # список использованных неверных букв
         self.tries_num = 15  # количество попыток
         self.game_result = ['-' for _ in range(len(self.guessed_word))]  # исходное маскированное слово
@@ -36,7 +36,7 @@ class DreamFieldGame:
             print(f"\n{''.join(self.game_result)}")
             self.take_guess(input("Введите букву: ").lower())
 
-    def take_guess(self, guess):
+    def take_guess(self, guess: str) -> None:
         if len(guess) == 0 or len(guess) > 1:
             print("Введите одну букву")
         elif not guess.isalpha():
